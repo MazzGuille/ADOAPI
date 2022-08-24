@@ -1,6 +1,7 @@
 using ADOAPI.Models;
-using ADOAPI.Services;
 using ADOAPI.Services.Interfaces;
+using ADOAPI.Services.Logica;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,8 @@ builder.Services.AddSwaggerGen();
 
 
 //Inyeccion para que lea los modelos con el patron de servicios/repositorios
-builder.Services.AddScoped<IUsuarios, Usuarios>();
+builder.Services.AddScoped<IUsuarios, UsuarioLogica>();
+builder.Services.AddScoped<IDestinos, DestinoLogica>();
 
 
 var app = builder.Build();

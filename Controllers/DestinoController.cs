@@ -1,5 +1,6 @@
 ﻿using ADOAPI.Models;
 using ADOAPI.Services.Interfaces;
+using ADOAPI.Services.Logica;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,23 +8,23 @@ namespace ADOAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuariosController : ControllerBase
+    public class DestinoController : ControllerBase
     {
-        private readonly IUsuarios _usuarios;
+        private readonly IDestinos _destino;
 
-        public UsuariosController(IUsuarios usuarios)
+        public DestinoController(IDestinos destino)
         {
-            _usuarios = usuarios;
+            _destino = destino;
         }
 
         [HttpPost]
-        [Route("CrearUsuario")]
-        public IActionResult CrearUsuario(Usuario Ob)
+        [Route("CrearDestino")]
+        public IActionResult CrearDestino(Destino Ob)
         {
             try
             {
-                _usuarios.PostCrearUsuario(Ob);
-                return StatusCode(StatusCodes.Status200OK, new { mensaje = "Se ha creado un nuevo usuario" });
+                _destino.PostCrearDestino(Ob);
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = "Se ha creado un nuevo destino" });
             }
             catch (Exception e)
             {
@@ -35,12 +36,12 @@ namespace ADOAPI.Controllers
         }
 
         [HttpGet]
-        [Route("ListaDeUsuarios")]
-        public async Task<List<Usuario>> ListaDeUsuarios()
+        [Route("ListaDeDestinos")]
+        public async Task<List<Destino>> ListaDeDestinos()
         {
             try
             {
-                return await Task.FromResult(_usuarios.GetAllUsuarios());
+                return await Task.FromResult(_destino.GetAllDestino());
 
             }
             catch (Exception e)
@@ -53,13 +54,13 @@ namespace ADOAPI.Controllers
         }
 
         [HttpPut]
-        [Route("EditarUsuario")]
-        public IActionResult EditarUsario(Usuario Ob)
+        [Route("EditarDestino")]
+        public IActionResult EditarDestino(Destino Ob)
         {
             try
             {
-                _usuarios.PutEditarUsuario(Ob);
-                return StatusCode(StatusCodes.Status200OK, new { mensaje = "Se ha editado el usuario correctamente" });
+                _destino.PutEditarDestino(Ob);
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = "Se ha editado el destino correctamente" });
             }
             catch (Exception e)
             {
@@ -71,12 +72,12 @@ namespace ADOAPI.Controllers
 
         [HttpDelete]
         [Route("EliminarUsuario")]
-        public IActionResult EliminarUsuario(string mail)
+        public IActionResult EliminarDestino(int id)
         {
             try
             {
-                _usuarios.DeleteUsuario(mail);
-                return StatusCode(StatusCodes.Status200OK, new { mensaje = "Se ha eliminado el usuario" });
+                _destino.DeleteDestino(id);
+                return StatusCode(StatusCodes.Status200OK, new { mensaje = "Se ha eliminado el destino" });
             }
             catch (Exception e)
             {
