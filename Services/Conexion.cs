@@ -2,7 +2,7 @@
 {
     public class Conexion
     {
-        private string cadenaSQL = string.Empty;
+        private readonly string cadenaSQL = string.Empty;
 
         public Conexion()
         {
