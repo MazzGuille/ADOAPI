@@ -9,20 +9,21 @@ namespace ADOAPI.Services
     public class Usuarios : IUsuarios
     {
 
-
+        //--------------------------------------------------------Metodo anterior-----------------------------------------------
         //readonly string CadenaSQL;
-
         //public Usuarios(IConfiguration config)
         //{
         //    CadenaSQL = config.GetConnectionString("CadenaSQL");
         //}
-
+        //--------------------------------------------------------Metodo anterior-----------------------------------------------
 
         readonly Conexion cn = new(); //Instancia para llamar al Getter de la cadena de conexion
 
 
+
         public void PostCrearUsuario(Usuario Ob)
         {
+
             try
             {
                 using (SqlConnection conexion = new(cn.GetCadenaSQL()))
