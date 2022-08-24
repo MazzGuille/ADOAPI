@@ -27,8 +27,8 @@ namespace ADOAPI.Controllers
             }
             catch (Exception e)
             {
-
-                throw new Exception(e.Message.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError, new { mensaje = e.Message });
+                //throw new Exception(e.Message.ToString());
             }
 
 
@@ -45,8 +45,8 @@ namespace ADOAPI.Controllers
             }
             catch (Exception)
             {
-
-                throw;
+                return StatusCode(StatusCodes.Status500InternalServerError, new { mensaje = e.Message });
+                // throw;
             }
 
 
@@ -63,8 +63,8 @@ namespace ADOAPI.Controllers
             }
             catch (Exception e)
             {
-
-                throw new Exception(e.Message.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError, new { mensaje = e.Message });
+                //throw new Exception(e.Message.ToString());
 
             }
         }
@@ -80,8 +80,8 @@ namespace ADOAPI.Controllers
             }
             catch (Exception e)
             {
-
-                throw new Exception(e.Message.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError, new { mensaje = e.Message });
+                //throw new Exception(e.Message.ToString());
             }
         }
     }
