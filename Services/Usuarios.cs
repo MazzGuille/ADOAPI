@@ -8,17 +8,24 @@ namespace ADOAPI.Services
 {
     public class Usuarios : IUsuarios
     {
-        readonly string CadenaSQL;
 
-        public Usuarios(IConfiguration config)
-        {
-            CadenaSQL = config.GetConnectionString("CadenaSQL");
-        }
+
+        //readonly string CadenaSQL;
+
+        //public Usuarios(IConfiguration config)
+        //{
+        //    CadenaSQL = config.GetConnectionString("CadenaSQL");
+        //}
+
+
+        readonly Conexion cn = new(); //Instancia para llamar al Getter de la cadena de conexion
+
+
         public void PostCrearUsuario(Usuario Ob)
         {
             try
             {
-                using (SqlConnection conexion = new SqlConnection(CadenaSQL))
+                using (SqlConnection conexion = new(cn.GetCadenaSQL()))
                 {
                     conexion.Open();
                     SqlCommand cmd = new SqlCommand("SP_Guardar", conexion);
@@ -45,7 +52,7 @@ namespace ADOAPI.Services
 
             try
             {
-                using (SqlConnection conexion = new(CadenaSQL))
+                using (SqlConnection conexion = new(cn.GetCadenaSQL()))
                 {
                     conexion.Open();
                     SqlCommand cmd = new("SP_Listar", conexion);
@@ -102,7 +109,7 @@ namespace ADOAPI.Services
         {
             try
             {
-                using (SqlConnection conexion = new(CadenaSQL))
+                using (SqlConnection conexion = new(cn.GetCadenaSQL()))
                 {
                     conexion.Open();
                     SqlCommand cmd = new SqlCommand("SP_Editar", conexion);
@@ -126,7 +133,7 @@ namespace ADOAPI.Services
         {
             try
             {
-                using (SqlConnection conexion = new(CadenaSQL))
+                using (SqlConnection conexion = new(cn.GetCadenaSQL()))
                 {
                     conexion.Open();
                     SqlCommand cmd = new SqlCommand("SP_Eliminar", conexion);
