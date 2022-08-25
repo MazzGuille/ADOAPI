@@ -4,11 +4,11 @@ namespace ADOAPI.Services.Interfaces
 {
     public interface IUsuarios
     {
-        public void PutEditarUsuario(Usuario Ob);
-        public void DeleteUsuario(string mail);
-        //public Usuario GetUsuario(Usuario Ob);
-        public List<Usuario> GetAllUsuarios();
-        public void PostCrearUsuario(Usuario Ob);
+
+        Task<string> PostCrearUsuario(Usuario Ob);
+        Task<List<Usuario>> GetAllUsuarios();
+        Task<string> PutEditarUsuario(Usuario Ob);
+        Task<string> DeleteUsuario(string mail);
 
     }
 }

@@ -21,23 +21,36 @@ namespace ADOAPI.Services.Logica
 
 
 
-        public void PostCrearUsuario(Usuario Ob)
+        public async Task<string> PostCrearUsuario(Usuario Ob)
         {
 
-
-            using (SqlConnection conexion = new(cn.GetCadenaSQL()))
+            try
             {
-                conexion.Open();
-                SqlCommand cmd = new SqlCommand("SP_Guardar", conexion);
-                cmd.Parameters.AddWithValue("Nombre", Ob.Nombre);
-                cmd.Parameters.AddWithValue("Apellido", Ob.Apellido);
-                cmd.Parameters.AddWithValue("Email", Ob.Email);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.ExecuteNonQuery();
+                using (SqlConnection conexion = new(cn.GetCadenaSQL()))
+                {
+                    conexion.Open();
+                    SqlCommand cmd = new SqlCommand("SP_Guardar", conexion);
+                    cmd.Parameters.AddWithValue("Nombre", Ob.Nombre);
+                    cmd.Parameters.AddWithValue("Apellido", Ob.Apellido);
+                    cmd.Parameters.AddWithValue("Email", Ob.Email);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.ExecuteNonQuery();
+                }
+
+                string response = "El usaurio se ha creado con exito";
+                return await Task.FromResult(response);
+
             }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+
+
         }
 
-        public List<Usuario> GetAllUsuarios()
+        public async Task<List<Usuario>> GetAllUsuarios()
         {
             List<Usuario> lista = new();
 
@@ -62,26 +75,40 @@ namespace ADOAPI.Services.Logica
                     }
                 }
             }
-            return lista;
+
+            return await Task.FromResult(lista);
         }
 
-        public void PutEditarUsuario(Usuario Ob)
+        public async Task<string> PutEditarUsuario(Usuario Ob)
         {
-            using (SqlConnection conexion = new(cn.GetCadenaSQL()))
-            {
-                conexion.Open();
-                SqlCommand cmd = new SqlCommand("SP_Editar", conexion);
-                cmd.Parameters.AddWithValue("Id", Ob.Id == 0 ? DBNull.Value : Ob.Id);
-                cmd.Parameters.AddWithValue("Nombre", Ob.Nombre is null ? DBNull.Value : Ob.Nombre);
-                cmd.Parameters.AddWithValue("Apellido", Ob.Apellido is null ? DBNull.Value : Ob.Apellido);
-                cmd.Parameters.AddWithValue("Email", Ob.Email is null ? DBNull.Value : Ob.Email);
-                cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.ExecuteNonQuery();
+            try
+            {
+                using (SqlConnection conexion = new(cn.GetCadenaSQL()))
+                {
+                    conexion.Open();
+                    SqlCommand cmd = new SqlCommand("SP_Editar", conexion);
+                    cmd.Parameters.AddWithValue("Id", Ob.Id);
+                    cmd.Parameters.AddWithValue("Nombre", Ob.Nombre);
+                    cmd.Parameters.AddWithValue("Apellido", Ob.Apellido);
+                    cmd.Parameters.AddWithValue("Email", Ob.Email);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.ExecuteNonQuery();
+                }
+                var response = "Se ha editado el usuario";
+
+                return await Task.FromResult(response);
             }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+
         }
 
-        public void DeleteUsuario(string mail)
+        public async Task<string> DeleteUsuario(string mail)
         {
             using (SqlConnection conexion = new(cn.GetCadenaSQL()))
             {
@@ -91,35 +118,11 @@ namespace ADOAPI.Services.Logica
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }
+
+            var response = "Se ha eliminado el usuario";
+
+            return await Task.FromResult(response);
         }
-
-        //public void GetUsuario(Usuario Ob)
-        //{
-
-        //    try
-        //    {
-        //        using (SqlConnection conexion = new(CadenaSQL))
-        //        {
-        //            conexion.Open();
-        //            SqlCommand cmd = new("SP_Obtener", conexion);
-        //            cmd.Parameters.AddWithValue("Email", Ob.Email);
-        //            cmd.CommandType = CommandType.StoredProcedure;
-
-
-        //        }
-
-        //    }
-        //    catch (Exception e)
-        //    {
-
-        //        throw new Exception(e.Message.ToString());
-        //    }
-        //}
-
-
-
-
-
 
     }
 }

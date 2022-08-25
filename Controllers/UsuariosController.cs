@@ -3,6 +3,7 @@ using ADOAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace ADOAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -16,31 +17,32 @@ namespace ADOAPI.Controllers
             _usuarios = usuarios;
         }
 
-        [HttpPost]
-        [Route("CrearUsuario")]
-        public IActionResult CrearUsuario(Usuario Ob)
+        [HttpPost("CrearUsuario")]
+        public async Task<string> CrearUsuario([FromBody] Usuario Ob)
         {
             try
             {
-                _usuarios.PostCrearUsuario(Ob);
-                return StatusCode(StatusCodes.Status200OK, new { mensaje = "Se ha creado un nuevo usuario" });
+                var response = await _usuarios.PostCrearUsuario(Ob);
+
+                return response;
+
+                //return StatusCode(StatusCodes.Status200OK, new { mensaje = "Se ha creado un nuevo usuario" });
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { mensaje = e.Message });
+                throw new Exception(e.Message);
                 //throw new Exception(e.Message.ToString());
             }
 
 
         }
 
-        [HttpGet]
-        [Route("ListaDeUsuarios")]
+        [HttpGet("ListaDeUsuarios")]
         public async Task<List<Usuario>> ListaDeUsuarios()
         {
             try
             {
-                return await Task.FromResult(_usuarios.GetAllUsuarios());
+                return await _usuarios.GetAllUsuarios();
 
             }
             catch (Exception e)
@@ -52,36 +54,31 @@ namespace ADOAPI.Controllers
 
         }
 
-        [HttpPut]
-        [Route("EditarUsuario")]
-        public IActionResult EditarUsario(Usuario Ob)
+        [HttpPut("EditarUsuario")]
+        public async Task<string> EditarUsario([FromBody] Usuario Ob)
         {
             try
             {
-                _usuarios.PutEditarUsuario(Ob);
-                return StatusCode(StatusCodes.Status200OK, new { mensaje = "Se ha editado el usuario correctamente" });
+                var response = await _usuarios.PutEditarUsuario(Ob);
+                return response;
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { mensaje = e.Message });
-                //throw new Exception(e.Message.ToString());
-
+                throw new Exception(e.Message.ToString());
             }
         }
 
-        [HttpDelete]
-        [Route("EliminarUsuario")]
-        public IActionResult EliminarUsuario(string mail)
+        [HttpDelete("EliminarUsuario")]
+        public async Task<string> EliminarUsuario([FromBody] string mail)
         {
             try
             {
-                _usuarios.DeleteUsuario(mail);
-                return StatusCode(StatusCodes.Status200OK, new { mensaje = "Se ha eliminado el usuario" });
+                var response = await _usuarios.DeleteUsuario(mail);
+                return response;
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { mensaje = e.Message });
-                //throw new Exception(e.Message.ToString());
+                throw new Exception(e.Message.ToString());
             }
         }
     }
