@@ -18,13 +18,13 @@ namespace ADOAPI.Controllers
         }
 
         [HttpPost("CrearUsuario")]
-        public async Task<string> CrearUsuario([FromBody] Usuario Ob)
+        public async Task<ActionResult<string>> CrearUsuario([FromBody] Usuario Ob)
         {
             try
             {
                 var response = await _usuarios.PostCrearUsuario(Ob);
 
-                return response;
+                return Ok(response);
 
                 //return StatusCode(StatusCodes.Status200OK, new { mensaje = "Se ha creado un nuevo usuario" });
             }
@@ -34,15 +34,17 @@ namespace ADOAPI.Controllers
                 //throw new Exception(e.Message.ToString());
             }
 
-
+          
         }
 
         [HttpGet("ListaDeUsuarios")]
-        public async Task<List<Usuario>> ListaDeUsuarios()
+        public async Task<ActionResult<List<Usuario>>>  ListaDeUsuarios()
         {
             try
             {
-                return await _usuarios.GetAllUsuarios();
+               var userList =  await _usuarios.GetAllUsuarios();
+
+                return Ok(userList);
 
             }
             catch (Exception e)
@@ -55,12 +57,12 @@ namespace ADOAPI.Controllers
         }
 
         [HttpPut("EditarUsuario")]
-        public async Task<string> EditarUsario([FromBody] Usuario Ob)
+        public async Task<ActionResult<string>> EditarUsario([FromBody] Usuario Ob)
         {
             try
             {
                 var response = await _usuarios.PutEditarUsuario(Ob);
-                return response;
+                return Ok(response);
             }
             catch (Exception e)
             {
@@ -69,12 +71,12 @@ namespace ADOAPI.Controllers
         }
 
         [HttpDelete("EliminarUsuario")]
-        public async Task<string> EliminarUsuario([FromBody] string mail)
+        public async Task<ActionResult<string>> EliminarUsuario([FromBody] string mail)
         {
             try
             {
                 var response = await _usuarios.DeleteUsuario(mail);
-                return response;
+                return Ok(response);
             }
             catch (Exception e)
             {
